@@ -52,7 +52,7 @@ function initializeSnakePosition() {
 
     let snakePosition = randomizePosition();
     console.log(snakePosition);
-    // let indexOfSnake = cells.indexOf(cells[snakePosition]);
+    let indexOfSnake = cells.indexOf(cells[snakePosition]);
 
     // let indexOfSnake = cells.forEach((cell,idx) => {  // use find ???
     //     // if (cell.id == idx) console.log(cell.id)
@@ -73,8 +73,6 @@ function initializeSnakePosition() {
     //     return Number(cell.id) === snakePosition+1
     // });
 
-    let indexOfSnake = cells.indexOf(cells[snakePosition]);  
-    console.log(indexOfSnake);
     cells[indexOfSnake].style.backgroundColor = 'green';
 
     // function getCellPosition() {
@@ -87,22 +85,64 @@ function initializeSnakePosition() {
     // let cellPosition = getCellPosition();
     // console.log(cellPosition);
 
-// setInterval(move, 1000)
+let intervalId = setInterval(move, 500)
 
 function move() {
+    document.onkeydown = function(e) {
+        switch (e.key) {
+            case "ArrowLeft":
+                moveLeft();
+                break;
+            case "ArrowRight":
+                moveRight();
+                break;
+            case "ArrowUp":
+                moveUp();
+                break;
+            case "ArrowDown":
+                moveDown();
+                break;
+        }
+    }
+}
+
+function moveRight() {
     cells[indexOfSnake].style.backgroundColor = '';
-    // moving right
     cells[indexOfSnake+1].style.backgroundColor = 'green';
     indexOfSnake += 1;
     if (indexOfSnake % 20 === 0) {
-        // cells[indexOfSnake].style.backgroundColor = '';
-        // indexOfSnake -= 20;
+        cells[indexOfSnake].style.backgroundColor = '';
+        clearInterval(intervalId);
+        cells[indexOfSnake-1].style.backgroundColor = 'green';
     }
-    console.log(indexOfSnake)
-    // // moving left
-    // cells[indexOfSnake-1].style.backgroundColor = 'green';
-    // // moving up
-    // cells[indexOfSnake-20].style.backgroundColor = 'green';
-    // // movig down
-    // cells[indexOfSnake+20].style.backgroundColor = 'green';
+}
+
+function moveLeft() {
+    cells[indexOfSnake].style.backgroundColor = '';
+    cells[indexOfSnake-1].style.backgroundColor = 'green';
+    indexOfSnake -= 1;
+    if (indexOfSnake % 20 === 0) {
+        // cells[indexOfSnake].style.backgroundColor = '';
+        clearInterval(intervalId);
+    }
+}
+
+function moveUp() {
+    cells[indexOfSnake].style.backgroundColor = '';
+    cells[indexOfSnake-20].style.backgroundColor = 'green';
+    indexOfSnake -= 20;
+    if (indexOfSnake < 20) {
+        // cells[indexOfSnake].style.backgroundColor = '';
+        clearInterval(intervalId);
+    }
+}
+
+function moveDown() {
+    cells[indexOfSnake].style.backgroundColor = '';
+    cells[indexOfSnake+20].style.backgroundColor = 'green';
+    indexOfSnake += 20;
+    if (indexOfSnake > 380) {
+        // cells[indexOfSnake].style.backgroundColor = '';
+        clearInterval(intervalId);
+    }
 }

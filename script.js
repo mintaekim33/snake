@@ -9,6 +9,8 @@ for (let i = 1; i <= numOfCells; i++) {
     cell.setAttribute('id',`${i}`)
     board.appendChild(cell);
  }
+// acutally don't even need to add these cells lol
+
  /*----- state variables -----*/
 let snake, snakeLength, foodPosition, IsGameOver;
 
@@ -51,70 +53,81 @@ function initializeSnakePosition() {
 }
 
     let snakePosition = randomizePosition();
-    console.log(snakePosition);
     let indexOfSnake = cells.indexOf(cells[snakePosition]);
-
-    // let indexOfSnake = cells.forEach((cell,idx) => {  // use find ???
-    //     // if (cell.id == idx) console.log(cell.id)
-    //     if (idx === snakePosition +1) {
-    //         // console.log(snakePosition + 1)
-    //         // let res = snakePosition + 1;
-    //         return 'hi';
-    //     }
-    //     // console.log(idx === snakePosition +1)
-    // })
-
-    // let indexOfSnake = cells.find(cell => cell.id === snakePosition+1);
-    // let indexOfSnake = cells.find(cell => {
-    //     if (Number(cell.id) === snakePosition+1) return Number(cell.id);
-    // });
-    // let indexOfSnake = cells.findIndex(cell => {
-    //     // get the correct index
-    //     return Number(cell.id) === snakePosition+1
-    // });
-
     cells[indexOfSnake].style.backgroundColor = 'green';
 
-    // function getCellPosition() {
-    //     cells.forEach((cell,idx) => {
-    //         // if (cell.id === cells.indexOf(cells[snakePosition]) + 1) return cell.id;
-    //         if ( cells.indexOf(cells[snakePosition]) ===cell.id) return cell.id;
-    //         // console.log(idx)
-    //     })
-    // }
-    // let cellPosition = getCellPosition();
-    // console.log(cellPosition);
 
-let intervalId = setInterval(move, 500)
 
-function move() {
-    document.onkeydown = function(e) {
-        switch (e.key) {
-            case "ArrowLeft":
-                moveLeft();
-                break;
-            case "ArrowRight":
-                moveRight();
-                break;
-            case "ArrowUp":
-                moveUp();
-                break;
-            case "ArrowDown":
-                moveDown();
-                break;
-        }
+// let intervalId = setInterval(moveLeft, 500) - put this in the move updownleftright functions
+
+// function move() {
+//     document.onkeydown = function(e) {
+//         switch (e.key) {
+//             case "ArrowLeft":
+//                 moveLeft();
+//                 break;
+//             case "ArrowRight":
+//                 moveRight();
+//                 break;
+//             case "ArrowUp":
+//                 moveUp();
+//                 break;
+//             case "ArrowDown":
+//                 moveDown();
+//                 break;
+//         }
+//     }
+// }
+// function move(e) {
+//             switch (e.key) {
+//             case "ArrowLeft":
+//                 moveLeft();
+//                 break;
+//             case "ArrowRight":
+//                 moveRight();
+//                 break;
+//             case "ArrowUp":
+//                 moveUp();
+//                 break;
+//             case "ArrowDown":
+//                 moveDown();
+//                 break;
+//         }
+// }
+
+// document.addEventListener('keydown', move(e));
+document.addEventListener('keydown', function(e) {
+    const key = e.key;
+    switch (key) { 
+        case "ArrowLeft":
+            moveLeft();
+            break;
+        case "ArrowRight":
+            moveRight();
+            break;
+        case "ArrowUp":
+            moveUp();
+            break;
+        case "ArrowDown":
+            moveDown();
+            break;
     }
-}
+} );
 
 function moveRight() {
-    cells[indexOfSnake].style.backgroundColor = '';
-    cells[indexOfSnake+1].style.backgroundColor = 'green';
-    indexOfSnake += 1;
-    if (indexOfSnake % 20 === 0) {
+    
+    let move = () => {
+        console.log(indexOfSnake)
         cells[indexOfSnake].style.backgroundColor = '';
-        clearInterval(intervalId);
-        cells[indexOfSnake-1].style.backgroundColor = 'green';
+        cells[indexOfSnake+1].style.backgroundColor = 'green';
+        indexOfSnake += 1;
+        if (indexOfSnake % 20 === 0) {
+            cells[indexOfSnake].style.backgroundColor = '';
+            clearInterval(intervalId);
+            // cells[indexOfSnake-1].style.backgroundColor = 'green';
     }
+    }
+    let intervalId = setInterval(move, 1000)
 }
 
 function moveLeft() {

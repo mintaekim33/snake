@@ -53,9 +53,19 @@ function initializeSnakePosition() {
 // let intervalId = setInterval(moveLeft, 500) - put this in the move updownleftright functions
 
 function handleKeys(e) {
+    if (snakePosition === foodPosition) {
+        eat();
+        // snakeArray.push(1);
+        // console.log(snakeArray.length);
+        // initializeFoodPosition();
+
+    }
+    // for (let i=0; i<snakeArray.length-1; i++) {
+        
+    // }
     // save previous snake postion for the body to follow
     let prevPosition = snakePosition;
-    console.log(prevPosition)
+    // console.log(prevPosition)
 
     // remove snake class
     cells[snakePosition].style.backgroundColor = '';
@@ -66,15 +76,12 @@ function handleKeys(e) {
             snakePosition -= 1;
             break;
         case "ArrowRight":
-            // moveRight();
             snakePosition += 1;
             break;
         case "ArrowUp":
-            // moveUp();
             snakePosition -= 20;
             break;
         case "ArrowDown":
-            // moveDown();
             snakePosition += 20;
             break;
     }
@@ -82,33 +89,27 @@ function handleKeys(e) {
     cells[snakePosition].style.backgroundColor = 'green';
     // cells[snakePosition].classList.add('snake');
 
-    console.log("snake pos: ", snakePosition)
-    console.log("prevposition: ", prevPosition)
+    // console.log("snake pos: ", snakePosition)
+    // console.log("prevposition: ", prevPosition)
 
-    if (snakePosition === foodPosition) {
-        snakeArray.push(1);
-        console.log(snakeArray.length);
-        initializeFoodPosition();
 
-    }
-
-    for (let i=0; i<snakeArray.length-1; i++) {
-        console.log(i) // why is it not incrementing?
-        cells[prevPosition].style.backgroundColor = '';
-        cells[snakePosition].style.backgroundColor = 'green';
-
-        
-    }
 }
 
-// create body
-function eat() {}
+for (let i=0; i<snakeArray.length-1; i++) {
+    console.log(i);
+    // cells[prevPosition].style.backgroundColor = '';
+    // cells[prevPosition].style.backgroundColor = 'green';
+}
+
+// create body and draw
+function eat() {
+    snakeArray.push(1);
+    console.log(snakeArray.length);
+    initializeFoodPosition();
+}
 
 // auto move
 // collision (walls & itself)
-
-
-
 
 
 // function moveRight() {

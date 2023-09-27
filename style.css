@@ -1,9 +1,16 @@
 
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #board {
-    position: absolute;
+    /* position: absolute;
     transform: translate(-50%, -50%);
     left: 50%;
-    top: 50%;
+    top: 50%; */
     width: 500px;
     height: 500px;
     background-color: black;
@@ -25,3 +32,7 @@
 .food {
     background-color: red;
 } */
+
+.gameOver {
+    display: none;
+}

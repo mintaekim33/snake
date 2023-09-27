@@ -93,18 +93,27 @@ function handleKeys(e) {
     // console.log("prevposition: ", prevPosition)
 
 
+    // for (let i=0; i<snakeArray.length-1; i++) {
+    //     console.log(i);
+    //     cells[prevPosition].style.backgroundColor = '';
+    //     cells[prevPosition].style.backgroundColor = 'green';
+    // }
 }
 
-for (let i=0; i<snakeArray.length-1; i++) {
-    console.log(i);
-    // cells[prevPosition].style.backgroundColor = '';
-    // cells[prevPosition].style.backgroundColor = 'green';
-}
 
 // create body and draw
 function eat() {
+    // let prevPosition = snakePosition;
     snakeArray.push(1);
-    console.log(snakeArray.length);
+            for (let i=0; i<snakeArray.length-1; i++) {
+                let prevPosition = snakePosition;
+                // console.log(i);
+                console.log(prevPosition)
+                cells[prevPosition].style.backgroundColor = '';
+                prevPosition = snakePosition;
+                // prevPosition += 1;       // if move right, add in the rest...
+                cells[prevPosition].style.backgroundColor = 'green';
+            }
     initializeFoodPosition();
 }
 

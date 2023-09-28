@@ -11,6 +11,7 @@ for (let i = 1; i <= numOfCells; i++) {
 
  /*----- state variables -----*/
 let snakePosition, snakeArray, foodPosition, IsGameOver;
+let prevPositionArray = [];
 
  /*----- cached elements  -----*/
 // let board = document.getElementById('board');
@@ -65,11 +66,14 @@ function handleKeys(e) {
     // }
     // save previous snake postion for the body to follow
     let prevPosition = snakePosition;
-    // console.log(prevPosition)
-
+    prevPositionArray.push(prevPosition);
+    
     // remove snake class
-    cells[snakePosition].style.backgroundColor = '';
+    // cells[snakePosition].style.backgroundColor = '';
     // cells[snakePosition].classList.remove('snake');
+    
+    prevPositionArray.forEach(pos => cells[pos].style.backgroundColor = '')
+    
     const key = e.key;
     switch (key) { 
         case "ArrowLeft":
@@ -86,18 +90,43 @@ function handleKeys(e) {
             break;
     }
     // add snake class
-    cells[snakePosition].style.backgroundColor = 'green';
+    // cells[snakePosition].style.backgroundColor = 'green';
     // cells[snakePosition].classList.add('snake');
+
+    // prevPositionArray.forEach(pos => cells[pos].style.backgroundColor = 'green')
 
     // console.log("snake pos: ", snakePosition)
     // console.log("prevposition: ", prevPosition)
 
+    // while (prevPositions.length !== snakeArray.length) prevPositions.pop(); 
+    // prevPositions.pop();
 
     // for (let i=0; i<snakeArray.length-1; i++) {
-    //     console.log(i);
-    //     cells[prevPosition].style.backgroundColor = '';
+    //     // console.log("index of snake elements: ",i);
+    //     // console.log("prev: ",prevPositions[0]);
+    //     // console.log(snakeArray.length)
+    //     // cells[prevPosition].style.backgroundColor = '';
+    //     // prevPosition = snakePosition;
+    //     console.log("prev positinos: ", prevPositions)
     //     cells[prevPosition].style.backgroundColor = 'green';
     // }
+
+    prevPositionArray= prevPositionArray.slice(-snakeArray.length);
+
+    prevPositionArray.forEach(pos => {
+        console.log(pos)
+        cells[pos].style.backgroundColor = 'green';
+    })
+    // cells[snakePosition].style.backgroundColor = 'green';
+    // console.log(snakePosition)
+    // console.log(prevPositionArray)
+
+    // prevPositionArray.forEach(pos => {
+    //     cells[pos].style.backgroundColor = '';
+    //     console.log(pos)
+    //     cells[pos].style.backgroundColor = 'green';
+    //     // pos = snakePosition
+    // })
 }
 
 
@@ -105,15 +134,23 @@ function handleKeys(e) {
 function eat() {
     // let prevPosition = snakePosition;
     snakeArray.push(1);
-            for (let i=0; i<snakeArray.length-1; i++) {
-                let prevPosition = snakePosition;
-                // console.log(i);
-                console.log(prevPosition)
-                cells[prevPosition].style.backgroundColor = '';
-                prevPosition = snakePosition;
-                // prevPosition += 1;       // if move right, add in the rest...
-                cells[prevPosition].style.backgroundColor = 'green';
-            }
+    // console.log("snake length: ", snakeArray.length)
+    // console.log("prev pos length", prevPositions.length)
+    // for (i = 0; i < snakeArray.length-1; i++) {
+        // console.log("pushed")
+        // prevPositions.push(snakePosition) - this method won't add the most recent previous positions!
+    // }
+    // prevPositionArray= prevPositionArray.slice(-snakeArray.length);
+    console.log(prevPositionArray)
+            // for (let i=0; i<snakeArray.length-1; i++) {
+            //     let prevPosition = snakePosition;
+            //     console.log(i);
+            //     console.log(prevPosition)
+            //     cells[prevPosition].style.backgroundColor = '';
+            //     // prevPosition = snakePosition;
+            //     // prevPosition += 1;       // if move right, add in the rest...
+            //     cells[prevPosition].style.backgroundColor = 'green';
+            // }
     initializeFoodPosition();
 }
 

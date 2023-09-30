@@ -29,7 +29,7 @@ let cells = [...document.querySelectorAll('.cell')];
 }
 
 function initialize() {
-    snakeArray = [1]; // gets longer by pushing 1 into it
+    snakeArray = [1,1,1,1]; // gets longer by pushing 1 into it
     // snakeLength = 1; - probably don't need?
     IsGameOver = false;
     initializeFoodPosition();
@@ -57,7 +57,7 @@ function handleKeys(e) {
     // console.log(snakePosition)
     if (IsGameOver) return;
 
-    clearInterval(intervalId);
+    // clearInterval(intervalId);
 
     // if (snakePosition === foodPosition) {
     //     console.log(snakePosition)
@@ -102,67 +102,73 @@ function handleKeys(e) {
         case "ArrowDown":
             direction = "down";
             break;
-    }
-                intervalId = setInterval(function() {
-                    if (snakePosition === foodPosition) {
-                        console.log(snakePosition)
-                        console.log(foodPosition)
-                        eat();
-                        
-                        // snakeArray.push(1);
-                        // console.log(snakeArray.length);
-                        // initializeFoodPosition();
-                    }
-                    if (direction === "left") {
-                        cells[snakePosition].classList.remove('snake')
-                        snakePosition -= 1;
-                        // cells[snakePosition].classList.add('snake')
-                        prevPositionArray.push(snakePosition);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.remove('snake')
-                        })
-                        prevPositionArray= prevPositionArray.slice(-snakeArray.length);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.add('snake');
-                        })
-                    } else if (direction === "right") {
-                        cells[snakePosition].classList.remove('snake')
-                        snakePosition += 1;
-                        // cells[snakePosition].classList.add('snake')
-                        prevPositionArray.push(snakePosition);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.remove('snake')
-                        })
-                        prevPositionArray= prevPositionArray.slice(-snakeArray.length);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.add('snake');
-                        })
-                    } else if (direction === "up") {
-                        cells[snakePosition].classList.remove('snake')
-                        snakePosition -= 20;
-                        // cells[snakePosition].classList.add('snake')
-                        prevPositionArray.push(snakePosition);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.remove('snake')
-                        })
-                        prevPositionArray= prevPositionArray.slice(-snakeArray.length);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.add('snake');
-                        })
-                    } else if (direction === "down") {
-                        cells[snakePosition].classList.remove('snake')
-                        snakePosition += 20;
-                        // cells[snakePosition].classList.add('snake')
-                        prevPositionArray.push(snakePosition);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.remove('snake')
-                        })
-                        prevPositionArray= prevPositionArray.slice(-snakeArray.length);
-                        prevPositionArray.forEach(pos => {
-                            cells[pos].classList.add('snake');
-                        })
-                    }
-                }, 500)
+    }}
+
+
+    intervalId = setInterval(function() {
+        if (snakePosition === foodPosition) {
+            console.log(snakePosition)
+            console.log(foodPosition)
+            eat();
+            
+            // snakeArray.push(1);
+            // console.log(snakeArray.length);
+            // initializeFoodPosition();
+        }
+        if (direction === "left") {
+            cells[snakePosition].classList.remove('snake')
+            snakePosition -= 1;
+            // cells[snakePosition].classList.add('snake')
+            checkCollision();
+            prevPositionArray.push(snakePosition);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.remove('snake')
+            })
+            prevPositionArray= prevPositionArray.slice(-snakeArray.length);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.add('snake');
+            })
+        } else if (direction === "right") {
+            cells[snakePosition].classList.remove('snake')
+            snakePosition += 1;
+            checkCollision();
+            // cells[snakePosition].classList.add('snake')
+            prevPositionArray.push(snakePosition);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.remove('snake')
+            })
+            prevPositionArray= prevPositionArray.slice(-snakeArray.length);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.add('snake');
+            })
+        } else if (direction === "up") {
+            cells[snakePosition].classList.remove('snake')
+            snakePosition -= 20;
+            checkCollision();
+            // cells[snakePosition].classList.add('snake')
+            prevPositionArray.push(snakePosition);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.remove('snake')
+            })
+            prevPositionArray= prevPositionArray.slice(-snakeArray.length);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.add('snake');
+            })
+        } else if (direction === "down") {
+            cells[snakePosition].classList.remove('snake')
+            snakePosition += 20;
+            checkCollision();
+            // cells[snakePosition].classList.add('snake')
+            prevPositionArray.push(snakePosition);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.remove('snake')
+            })
+            prevPositionArray= prevPositionArray.slice(-snakeArray.length);
+            prevPositionArray.forEach(pos => {
+                cells[pos].classList.add('snake');
+            })
+        }
+    }, 500)
 
     // prevPositionArray.push(snakePosition);
 
@@ -193,9 +199,9 @@ function handleKeys(e) {
     //     cells[pos].style.backgroundColor = 'green';
     //     // pos = snakePosition
     // })
+// console.log(snakePosition)
+    // checkCollision();
 
-    checkCollision();
-}
 
 
 // create body and draw
@@ -225,20 +231,20 @@ function eat() {
 }
 
 function checkCollision() {
-    // if (snakePosition < 0 || // checking upper edge
-    //     snakePosition > 399 || // checking lower edge
-    //      snakePosition % 20 === 0 || // checking left edge
-    //      snakePosition % 20 === 20 - 1 || // checking right edge
-    //      cells[snakePosition].classList.contains('snake') // checking body collision
-    //     ) {
-    // //     console.log("Game over")
-    // // if (snakePosition < 0) console.log("game over 1")
-    // // if (snakePosition > 399) console.log("game over 2")
-    // // if (snakePosition % 20 === 0) console.log("game over 3")
-    // // if (snakePosition % 20 === 20 - 1) console.log("game over 4")
-    // // if (cells[snakePosition].classList.contains('snake')) console.log("game over 5")
-    //     IsGameOver = true;
-    // }
+    if (snakePosition < 0 || // checking upper edge
+        snakePosition > 399 || // checking lower edge
+        snakePosition % 20 === 0 && direction === "left" || // checking left edge
+        (snakePosition+1) % 20 === 0 && direction === "right" || // checking right edge
+         cells[snakePosition].classList.contains('snake') // checking body collision
+        ) {
+        console.log("Game over")
+    // if (snakePosition < 0) console.log("game over up")
+    // if (snakePosition > 399) console.log("game over down")
+    // if (snakePosition % 20 === 0 && direction === "left") console.log("game over left")
+    // if ((snakePosition+1) % 20 === 0 && direction === "right") console.log("game over right")
+    // if (cells[snakePosition].classList.contains('snake')) console.log("game over body")
+        // IsGameOver = true;
+    }
 }
 
 // auto move

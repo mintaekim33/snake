@@ -1,3 +1,5 @@
+let board = document.getElementById('board');
+
 /*----- constants -----*/
 const boardSize = 20; // 20 squares by 20 squares
 
@@ -14,13 +16,16 @@ let snakePosition, snakeArray, foodPosition, IsGameOver, direction;
 let prevPositionArray = [];
 
 /*----- cached elements  -----*/
-// let board = document.getElementById('board');
-// let cells1 = document.querySelectorAll('.cell');
 let cells = [...document.querySelectorAll(".cell")];
+let gameOverScreen = document.querySelector('.gameOverScreen');
+let gameOverMsg = document.getElementById('gameOver');
+let resetBtn = document.querySelector('.reset');
+let level = document.querySelector('.level');
 
 /*----- event listeners -----*/
 
-document.addEventListener("keydown", handleKeys);
+document.addEventListener('keydown', handleKeys);
+resetBtn.addEventListener('click', reset);
 
 /*----- functions -----*/
 
@@ -29,8 +34,7 @@ function randomizePosition() {
 }
 
 function initialize() {
-  snakeArray = [1]; // gets longer by pushing 1 into it
-  // snakeLength = 1; - probably don't need?
+  snakeArray = [1];
   IsGameOver = false;
   initializeFoodPosition();
   initializeSnakePosition();
@@ -51,33 +55,32 @@ function initializeSnakePosition() {
   cells[snakePosition].classList.add("snake");
 }
 
-// let intervalId = setInterval(moveLeft, 500) - put this in the move updownleftright functions
-let intervalId;
 function handleKeys(e) {
-  if (IsGameOver) return;
-
-  const key = e.key;
-  switch (key) {
-    case "ArrowLeft":
-      if (direction === "left" || direction === "right") return;
-      direction = "left";
-      break;
-    case "ArrowRight":
-      if (direction === "left" || direction === "right") return;
-      direction = "right";
-      break;
-    case "ArrowUp":
+    const key = e.key;
+    switch (key) {
+        case "ArrowLeft":
+            if (direction === "left" || direction === "right") return;
+            direction = "left";
+            break;
+            case "ArrowRight":
+                if (direction === "left" || direction === "right") return;
+                direction = "right";
+                break;
+                case "ArrowUp":
       if (direction === "up" || direction === "down") return;
       direction = "up";
       break;
     case "ArrowDown":
-      if (direction === "up" || direction === "down") return;
-      direction = "down";
-      break;
-  }
+        if (direction === "up" || direction === "down") return;
+        direction = "down";
+        break;
+    }
 }
 
-intervalId = setInterval(function () {
+let intervalId;
+
+intervalId = setInterval(function() {
+
   eat(snakePosition);
 
             // const eatenFlag = eat(snakePosition);
@@ -95,15 +98,12 @@ intervalId = setInterval(function () {
     prevPositionArray.forEach((pos) => {
       cells[pos].classList.remove("snake");
     });
-    // console.log(prevPositionArray)
     prevPositionArray = prevPositionArray.slice(-snakeArray.length);
             // const eatenFlag = eat(snakePosition);
             // if (!eatenFlag) {
             //   let removed = prevPositionArray.shift();
             //   cells[removed].classList.remove("snake");
             // }
-    // console.log(removed)
-    // console.log(prevPositionArray)
     prevPositionArray.forEach((pos) => {
       cells[pos].classList.add("snake");
     });
@@ -145,14 +145,13 @@ intervalId = setInterval(function () {
       cells[pos].classList.add("snake");
     });
   }
-}, 300);
+}, 100);
 
 function eat(currentSnakePosition) {
     if (currentSnakePosition === foodPosition) {
         snakeArray.push(1);
         cells[foodPosition].classList.remove("food");
         initializeFoodPosition();
-
         return true;
     }
     return false;
@@ -166,12 +165,18 @@ function checkCollision(storedPrevPos) {
     ((storedPrevPos + 1) % 20 === 0 && direction === "right") || // checking right edge
     cells[snakePosition].classList.contains("snake") // checking body collision
   ) {
-    console.log("Game over");
-    // if (snakePosition < 0) console.log("game over up")
-    // if (snakePosition > 399) console.log("game over down")
-    // if (snakePosition % 20 === 0 && direction === "left") console.log("game over left")
-    // if ((snakePosition+1) % 20 === 0 && direction === "right") console.log("game over right")
-    // if (cells[snakePosition].classList.contains('snake')) console.log("game over body")
-    // IsGameOver = true;
+    // console.log("Game over");
+    IsGameOver = true;
+    clearInterval(intervalId);
+    level.style.display = 'none';
+    board.style.display = 'none';
+    gameOverScreen.style.backgroundColor = 'black';
+    gameOverMsg.style.display = 'block';
+    resetBtn.style.display = 'block';
   }
+}
+
+function reset() {
+    // initialize();
+    location.reload();
 }

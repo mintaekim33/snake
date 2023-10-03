@@ -78,12 +78,10 @@ function handleKeys(e) {
 
 function moveSnake() {
   prevPositionArray.push(snakePosition);
-  console.log("after pushing: ", prevPositionArray.length);
   prevPositionArray.forEach((pos) => {
     cells[pos].classList.remove("snake");
   });
   prevPositionArray = prevPositionArray.slice(-snakeArray.length);
-  console.log("after slicing: ", prevPositionArray.length);
   // const eatenFlag = eat(snakePosition);
   // if (!eatenFlag) {
   //   let removed = prevPositionArray.shift();
@@ -158,16 +156,16 @@ function increaseSpeed() {
 //     return false;
 // }
 
+let gulpSound = new Audio('/gulp.mp3');
+
 function eat() {
   if (snakePosition === foodPosition) {
-    console.log("inside eat condition ", prevPositionArray.length);
+    gulpSound.play();
     snakeArray.push(1);
-    console.log("inside eat condition ", prevPositionArray.length);
     cells[foodPosition].classList.remove("food");
     initializeFoodPosition();
     levelUp.textContent = snakeArray.length;
   }
-  console.log("outside eat condition ", prevPositionArray.length);
 }
 
 function checkCollision(storedPrevPos) {

@@ -1,4 +1,4 @@
-let board = document.getElementById('board');
+let board = document.getElementById("board");
 
 /*----- constants -----*/
 const boardSize = 20; // 20 squares by 20 squares
@@ -17,16 +17,16 @@ let prevPositionArray = [];
 
 /*----- cached elements  -----*/
 let cells = [...document.querySelectorAll(".cell")];
-let gameOverScreen = document.querySelector('.gameOverScreen');
-let gameOverMsg = document.getElementById('gameOver');
-let resetBtn = document.querySelector('.reset');
-let level = document.querySelector('.level');
-let levelUp = document.getElementById('levelUp');
+let gameOverScreen = document.querySelector(".gameOverScreen");
+let gameOverMsg = document.getElementById("gameOver");
+let resetBtn = document.querySelector(".reset");
+let level = document.querySelector(".level");
+let levelUp = document.getElementById("levelUp");
 
 /*----- event listeners -----*/
 
-document.addEventListener('keydown', handleKeys);
-resetBtn.addEventListener('click', reset);
+document.addEventListener("keydown", handleKeys);
+resetBtn.addEventListener("click", reset);
 
 /*----- functions -----*/
 
@@ -55,49 +55,52 @@ function initializeSnakePosition() {
 }
 
 function handleKeys(e) {
-    const key = e.key;
-    switch (key) {
-        case "ArrowLeft":
-            if (direction === "left" || direction === "right") return;
-            direction = "left";
-            break;
-        case "ArrowRight":
-            if (direction === "left" || direction === "right") return;
-            direction = "right";
-            break;
-        case "ArrowUp":
-            if (direction === "up" || direction === "down") return;
-            direction = "up";
-            break;
-        case "ArrowDown":
-            if (direction === "up" || direction === "down") return;
-            direction = "down";
-            break;
-    }
+  const key = e.key;
+  switch (key) {
+    case "ArrowLeft":
+      if (direction === "left" || direction === "right") return;
+      direction = "left";
+      break;
+    case "ArrowRight":
+      if (direction === "left" || direction === "right") return;
+      direction = "right";
+      break;
+    case "ArrowUp":
+      if (direction === "up" || direction === "down") return;
+      direction = "up";
+      break;
+    case "ArrowDown":
+      if (direction === "up" || direction === "down") return;
+      direction = "down";
+      break;
+  }
 }
 
 function moveSnake() {
-    prevPositionArray.push(snakePosition);
-    prevPositionArray.forEach((pos) => {
-      cells[pos].classList.remove("snake");
-    });
-    prevPositionArray = prevPositionArray.slice(-snakeArray.length);
-    // const eatenFlag = eat(snakePosition);
-    // if (!eatenFlag) {
-    //   let removed = prevPositionArray.shift();
-    //   cells[removed].classList.remove("snake");
-    // }
-    prevPositionArray.forEach((pos) => {
-      cells[pos].classList.add("snake");
-    });
+  prevPositionArray.push(snakePosition);
+  console.log("after pushing: ", prevPositionArray.length);
+  prevPositionArray.forEach((pos) => {
+    cells[pos].classList.remove("snake");
+  });
+  prevPositionArray = prevPositionArray.slice(-snakeArray.length);
+  console.log("after slicing: ", prevPositionArray.length);
+  // const eatenFlag = eat(snakePosition);
+  // if (!eatenFlag) {
+  //   let removed = prevPositionArray.shift();
+  //   cells[removed].classList.remove("snake");
+  // }
+  prevPositionArray.forEach((pos) => {
+    cells[pos].classList.add("snake");
+  });
 }
 
 let intervalId;
+let speedIncreased = false;
+intervalId = setInterval(play, speed);
 
-intervalId = setInterval(function() {
-
-//   eat(snakePosition);
-eat();
+function play() {
+  //   eat(snakePosition);
+  eat();
 
   if (direction === "left") {
     cells[snakePosition].classList.remove("snake");
@@ -122,7 +125,23 @@ eat();
     checkCollision();
     moveSnake();
   }
-}, speed);
+  // eat();
+  if (snakeArray.length === 5 && !speedIncreased) {
+    increaseSpeed();
+    speedIncreased = true;
+  }
+  if (snakeArray.length === 6) speedIncreased = false;
+  if (snakeArray.length === 10 && !speedIncreased) {
+    increaseSpeed();
+    speedIncreased = true;
+  }
+}
+
+function increaseSpeed() {
+  clearInterval(intervalId);
+  speed = speed/2;
+  intervalId = setInterval(play, speed);
+}
 
 // function eat(currentSnakePosition) {
 //     if (currentSnakePosition === foodPosition) {
@@ -140,17 +159,15 @@ eat();
 // }
 
 function eat() {
-    if (snakePosition === foodPosition) {
-        snakeArray.push(1);
-        cells[foodPosition].classList.remove("food");
-        initializeFoodPosition();
-        levelUp.textContent = prevPositionArray.length;
-        if (prevPositionArray.length === 5) {
-            console.log("first")
-            speed = 100;
-        }
-        return true;
-    }
+  if (snakePosition === foodPosition) {
+    console.log("inside eat condition ", prevPositionArray.length);
+    snakeArray.push(1);
+    console.log("inside eat condition ", prevPositionArray.length);
+    cells[foodPosition].classList.remove("food");
+    initializeFoodPosition();
+    levelUp.textContent = snakeArray.length;
+  }
+  console.log("outside eat condition ", prevPositionArray.length);
 }
 
 function checkCollision(storedPrevPos) {
@@ -163,15 +180,14 @@ function checkCollision(storedPrevPos) {
   ) {
     IsGameOver = true;
     clearInterval(intervalId);
-    level.style.display = 'none';
-    board.style.display = 'none';
-    gameOverScreen.style.backgroundColor = 'black';
-    gameOverMsg.style.display = 'block';
-    resetBtn.style.display = 'block';
+    level.style.display = "none";
+    board.style.display = "none";
+    gameOverScreen.style.backgroundColor = "black";
+    gameOverMsg.style.display = "block";
+    resetBtn.style.display = "block";
   }
 }
 
 function reset() {
-    // initialize();
-    location.reload();
+  location.reload();
 }

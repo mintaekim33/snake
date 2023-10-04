@@ -1,14 +1,16 @@
-# snake
-Snake:
-just a traditional snake game with upcoming fun future developments
+# Snake
+just a traditional snake game with upcoming fun future developments.
+The game gets harder with increasing levels!
 
 Screenshots:
 
-Technologies Used:
+Technologies Used: HTML CSS JavaScript
 
-Getting Started:
-- Play here
-- challenges
+Play Here: 
+
+Challenges Faced:
+
+Things I learnt:
 
 Next Steps:
 

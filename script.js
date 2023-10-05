@@ -138,7 +138,7 @@ function increaseSpeed() {
   intervalId = setInterval(play, speed);
 }
 
-let gulpSound = new Audio('/gulp.mp3');
+let gulpSound = new Audio('./assets/gulp.mp3');
 
 function eat() {
   if (snakePosition === foodPosition) {

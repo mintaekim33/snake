@@ -1,3 +1,4 @@
+/*----- cached board element  -----*/
 let board = document.getElementById("board");
 
 /*----- constants -----*/
@@ -14,6 +15,7 @@ for (let i = 1; i <= numOfCells; i++) {
 /*----- state variables -----*/
 let snakePosition, snakeArray, foodPosition, IsGameOver, direction, speed;
 let prevPositionArray = [];
+let speedIncreased = false;
 
 /*----- cached elements  -----*/
 let cells = [...document.querySelectorAll(".cell")];
@@ -79,25 +81,20 @@ function handleKeys(e) {
 function moveSnake() {
   prevPositionArray.push(snakePosition);
   prevPositionArray.forEach((pos) => {
-    cells[pos].classList.remove("snake");
+    if (cells[pos]) cells[pos].classList.remove("snake");
   });
   prevPositionArray = prevPositionArray.slice(-snakeArray.length);
-  // const eatenFlag = eat(snakePosition);
-  // if (!eatenFlag) {
-  //   let removed = prevPositionArray.shift();
-  //   cells[removed].classList.remove("snake");
-  // }
   prevPositionArray.forEach((pos) => {
-    cells[pos].classList.add("snake");
+    if (cells[pos]) cells[pos].classList.add("snake");
   });
 }
 
 let intervalId;
-let speedIncreased = false;
+
 intervalId = setInterval(play, speed);
 
 function play() {
-  //   eat(snakePosition);
+
   eat();
 
   if (direction === "left") {
@@ -123,7 +120,7 @@ function play() {
     checkCollision();
     moveSnake();
   }
-  // eat();
+
   if (snakeArray.length === 5 && !speedIncreased) {
     increaseSpeed();
     speedIncreased = true;
@@ -137,24 +134,9 @@ function play() {
 
 function increaseSpeed() {
   clearInterval(intervalId);
-  speed = speed/2;
+  speed = speed / 2;
   intervalId = setInterval(play, speed);
 }
-
-// function eat(currentSnakePosition) {
-//     if (currentSnakePosition === foodPosition) {
-//         snakeArray.push(1);
-//         cells[foodPosition].classList.remove("food");
-//         initializeFoodPosition();
-//         levelUp.textContent = prevPositionArray.length;
-//         if (prevPositionArray.length === 5) {
-//             console.log("first")
-//             speed = 100;
-//         }
-//         return true;
-//     }
-//     return false;
-// }
 
 let gulpSound = new Audio('/gulp.mp3');
 

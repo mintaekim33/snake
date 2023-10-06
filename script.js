@@ -56,6 +56,7 @@ function initializeSnakePosition() {
   cells[snakePosition].classList.add("snake");
 }
 
+// handle arrow key events
 function handleKeys(e) {
   const key = e.key;
   switch (key) {
@@ -78,6 +79,7 @@ function handleKeys(e) {
   }
 }
 
+// clear and redraw snake to 'move' snake
 function moveSnake() {
   prevPositionArray.push(snakePosition);
   prevPositionArray.forEach((pos) => {
@@ -140,6 +142,7 @@ function increaseSpeed() {
 
 let gulpSound = new Audio('./assets/gulp.mp3');
 
+// increase snake length by 1 when it reaches for food
 function eat() {
   if (snakePosition === foodPosition) {
     gulpSound.play();
@@ -150,6 +153,7 @@ function eat() {
   }
 }
 
+// check game over condition
 function checkCollision(storedPrevPos) {
   if (
     snakePosition < 0 || // checking upper edge
